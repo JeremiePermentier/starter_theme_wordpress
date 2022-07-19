@@ -38,3 +38,22 @@ array(
     'flex-height'          => true,
     'unlink-homepage-logo' => true,
 ));
+
+
+function theme_customizer_function($wp_customize) {
+
+    $wp_customize->add_section('starter', [
+        'title' => 'Couleur',
+        'priority' => 30,
+    ]);
+    $wp_customize->add_setting('color', [
+        'default' => "#000000",
+        'sanitize_callback' => 'sanitize_hex_color'
+    ]);
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color', [
+        'section' => 'starter',
+        'setting' => 'color',
+        'label' => 'Couleur principale'
+    ]));
+}
+add_action('customize_register', 'theme_customizer_function');
