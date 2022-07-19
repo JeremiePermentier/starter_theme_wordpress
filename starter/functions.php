@@ -22,3 +22,19 @@ register_nav_menus(
         'secondary' => __('Menu secondaire', 'starter'),
     )
 );
+
+/**
+ * Ajout de la prise en charge du logo personnalisé de base.
+ *  * Add support for core custom logo.
+ */
+$logo_width = 300;
+$logo_height = 150;
+
+add_theme_support('custom-logo', 
+array(
+    'height'               => $logo_height,
+    'width'                => $logo_width,
+    'flex-width'           => true,
+    'flex-height'          => true,
+    'unlink-homepage-logo' => true,
+));
