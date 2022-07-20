@@ -39,21 +39,67 @@ array(
     'unlink-homepage-logo' => true,
 ));
 
-
 function theme_customizer_function($wp_customize) {
 
-    $wp_customize->add_section('starter', [
+    /**
+     *  Panneau : Réglages de style
+     *  Panel: Style Settings
+     */
+    $wp_customize->add_panel('section_style', array(
+        'title' => __("Réglages de style"),
+        'priority' => 10,
+        'capability' => 'edit_theme_options'
+    ));
+
+    /**
+     * Section :
+     * Couleurs / colors
+     * Polices / Font
+     */
+    $wp_customize->add_section('color', array(
         'title' => 'Couleur',
-        'priority' => 30,
-    ]);
-    $wp_customize->add_setting('color', [
+        'panel' => 'section_style'
+    ));
+
+    $wp_customize->add_section('font', array(
+        'title' => 'Police',
+        'panel' => 'section_style'
+    ));
+
+    /** 
+     * Paramètre
+     * Setting
+     */
+    $wp_customize->add_setting('color', array(
         'default' => "#000000",
         'sanitize_callback' => 'sanitize_hex_color'
+    ));
+    $wp_customize->add_setting('font', [
+        'default' => 'lato',
     ]);
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color', [
-        'section' => 'starter',
+
+    /**
+     * Contrôle
+     * Control
+     */
+    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color', array(
+        'section' => 'color',
         'setting' => 'color',
-        'label' => 'Couleur principale'
-    ]));
+        'label' => 'Couleur principale',
+        'priority' => 10,
+    )));
+
+    $wp_customize->add_control('font', [
+        'section' => 'font',
+        'setting' => 'font',
+        'label' => 'Police',
+        'type' => 'select',
+        'choices' => array(
+            'nunito' => 'Nunito',
+            'lato' => 'Lato',
+            'roboto' => 'Roboto',
+        )
+    ]);    
+
 }
 add_action('customize_register', 'theme_customizer_function');
