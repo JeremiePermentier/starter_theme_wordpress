@@ -39,22 +39,18 @@ array(
     'unlink-homepage-logo' => true,
 ));
 
-function theme_customizer_function($wp_customize) {
+function starter_customizer_function($wp_customize) {
 
     /**
-     *  Panneau : Réglages de style
-     *  Panel: Style Settings
+     * Panels
      */
     $wp_customize->add_panel('section_style', array(
         'title' => __("Réglages de style"),
         'priority' => 10,
         'capability' => 'edit_theme_options'
     ));
-
     /**
-     * Section :
-     * Couleurs / colors
-     * Polices / Font
+     * Sections
      */
     $wp_customize->add_section('color', array(
         'title' => 'Couleur',
@@ -66,21 +62,29 @@ function theme_customizer_function($wp_customize) {
         'panel' => 'section_style'
     ));
 
+    $wp_customize->add_section('section_home', array(
+        'title' => __("Réglages de la mise en page d'accueil"),
+        'priority' => 15
+    ));
+
     /** 
-     * Paramètre
-     * Setting
+     * Settings
      */
     $wp_customize->add_setting('color', array(
         'default' => "#000000",
         'sanitize_callback' => 'sanitize_hex_color'
     ));
+
     $wp_customize->add_setting('font', [
         'default' => 'lato',
     ]);
 
+    $wp_customize->add_setting('title_banner', [
+        'default' => 'Beautiful Title',
+    ]);
+
     /**
-     * Contrôle
-     * Control
+     * Controls
      */
     $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'color', array(
         'section' => 'color',
@@ -99,7 +103,12 @@ function theme_customizer_function($wp_customize) {
             'lato' => 'Lato',
             'roboto' => 'Roboto',
         )
-    ]);    
+    ]);   
 
+    $wp_customize->add_control('title_banner', array(
+        'section' => 'section_home',
+        'setting' => 'title_banner',
+        'label' => 'Titre de la bannière'
+    ));
 }
-add_action('customize_register', 'theme_customizer_function');
+add_action('customize_register', 'starter_customizer_function');
