@@ -59,77 +59,34 @@ function starter_customizer_function($wp_customize) {
      * Sections
      */
 
+    function create_section($wp_customize,string $name, string $title, string $panel) {
+        $wp_customize->add_section($name, array(
+            'title' => $title,
+            'panel' => $panel
+        ));
+    }
     # colors
-    $wp_customize->add_section('preset', array(
-        'title' => 'Pré-réglages',
-        'panel' => 'section_color'
-    ));
+    $sections = [
+        ['name' => 'preset','title' => 'Pré-réglages','panel' => 'section_color'],
+        ['name' => 'base','title' => 'Base','panel' => 'section_color'],
+        ['name' => 'title','title' => 'Titre','panel' => 'section_color'],
+        ['name' => 'button','title' => 'Bouton','panel' => 'section_color'],
+        ['name' => 'logo','title' => 'Logo','panel' => 'section_color'],
+        ['name' => 'navigation_bar','title' => 'Barre de navigation','panel' => 'section_color'],
+        ['name' => 'top_bar','title' => 'Top bar','panel' => 'section_color'],
+        ['name' => 'title','title' => 'Titre','panel' => 'section_color'],
+        ['name' => 'nav_mobile','title' => 'Navigation mobile','panel' => 'section_color'],
+        ['name' => 'post','title' => 'Article','panel' => 'section_color'],
+        ['name' => 'footer','title' => 'Pied de page','panel' => 'section_color'],
+        ['name' => 'font','title' => 'Général','panel' => 'section_font'],
+        ['name' => 'font_general','title' => 'Titre','panel' => 'section_font'],
+        ['name' => 'font_nav','title' => 'Navigation','panel' => 'section_font'],
+        ['name' => 'font_post','title' => 'Article','panel' => 'section_font'],
+    ];
 
-    $wp_customize->add_section('base', array(
-        'title' => 'Base',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('title', array(
-        'title' => 'Titre',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('button', array(
-        'title' => 'Bouton',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('logo', array(
-        'title' => 'Logo',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('navigation_bar', array(
-        'title' => 'Barre de navigation',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('top_bar', array(
-        'title' => 'Top bar',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('nav_mobile', array(
-        'title' => 'Navigation mobile',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('post', array(
-        'title' => 'Article',
-        'panel' => 'section_color'
-    ));
-
-    $wp_customize->add_section('footer', array(
-        'title' => 'Pied de page',
-        'panel' => 'section_color'
-    ));
-
-    # Typo
-    $wp_customize->add_section('font', array(
-        'title' => 'Général',
-        'panel' => 'section_font'
-    ));
-
-    $wp_customize->add_section('font_general', array(
-        'title' => 'Titre',
-        'panel' => 'section_font'
-    ));
-
-    $wp_customize->add_section('font_nav', array(
-        'title' => 'Navigation',
-        'panel' => 'section_font'
-    ));
-
-    $wp_customize->add_section('font_post', array(
-        'title' => 'Article',
-        'panel' => 'section_font'
-    ));
+    foreach ($sections as $section) {
+        create_section($wp_customize, $section['name'], $section['title'], $section['panel']);
+    }
 
     $wp_customize->add_section('section_home', array(
         'title' => __("Réglages de la mise en page d'accueil"),
@@ -139,60 +96,29 @@ function starter_customizer_function($wp_customize) {
     /** 
      * Settings
      */
+    function create_setting($wp_customize,string $name, string $default, string $sanitize) {
+        $wp_customize->add_setting($name, array(
+            'default' => $default,
+            'sanitize_callback' => $sanitize
+        ));
+    }
 
-    # Colors
+    $settings = [
+        ['name' => 'base','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'title','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'button','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'logo','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'navigation_bar','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'top_bar','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'title','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'nav_mobile','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'post','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+        ['name' => 'footer','default' => '#000000','sanitize' => 'sanitize_hex_color'],
+    ];
 
-    $wp_customize->add_setting('preset', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('base', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('title', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('button', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('logo', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('navigation_bar', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('top_bar', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('nav_mobile', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('post', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-    $wp_customize->add_setting('footer', array(
-        'default' => "#000000",
-        'sanitize_callback' => 'sanitize_hex_color'
-    ));
-
-
+    foreach ($settings as $setting) {
+        create_setting($wp_customize, $setting['name'], $setting['default'], $setting['sanitize']);
+    }
 
     # Typo
     $wp_customize->add_setting('font', [
