@@ -145,71 +145,6 @@ function starter_customizer_function($wp_customize) {
      * Controls
      */
 
-    # Colors
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'preset', array(
-        'section' => 'preset',
-        'setting' => 'preset',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'base', array(
-        'section' => 'base',
-        'setting' => 'base',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'title', array(
-        'section' => 'title',
-        'setting' => 'title',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'button', array(
-        'section' => 'button',
-        'setting' => 'button',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'logo', array(
-        'section' => 'logo',
-        'setting' => 'logo',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'navigation_bar', array(
-        'section' => 'navigation_bar',
-        'setting' => 'navigation_bar',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'top_bar', array(
-        'section' => 'top_bar',
-        'setting' => 'top_bar',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'nav_mobile', array(
-        'section' => 'nav_mobile',
-        'setting' => 'nav_mobile',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
-    $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, 'footer', array(
-        'section' => 'footer',
-        'setting' => 'footer',
-        'label' => 'Couleur par défaut',
-        'priority' => 10,
-    )));
-
     # Typo
     $font = array(
         'nunito' => 'Nunito',
@@ -217,37 +152,51 @@ function starter_customizer_function($wp_customize) {
         'roboto' => 'Roboto',
     );
 
-    $wp_customize->add_control('font', [
-        'section' => 'font',
-        'setting' => 'font',
-        'label' => 'Police',
-        'type' => 'select',
-        'choices' => $font
-    ]);   
+    function create_control(
+            $wp_customize,
+            string $section,
+            string $setting,
+            string $label,
+            string $type = null,
+            array $choices = null
+        ) {
 
-    $wp_customize->add_control('font_nav', [
-        'section' => 'font_nav',
-        'setting' => 'font_nav',
-        'label' => 'Police',
-        'type' => 'select',
-        'choices' => $font
-    ]); 
+        if  ($type === "select") {
+            $wp_customize->add_control($section, [
+                'section' => $section,
+                'setting' => $setting,
+                'label' => $label,
+                'type' => $type,
+                'choices' => $choices
+            ]); 
+        } else {
+            $wp_customize->add_control(new WP_Customize_Color_Control($wp_customize, $section, array(
+                'section' => $section,
+                'setting' => $setting,
+                'label' => $label,
+            )));
+        }
+    }
 
-    $wp_customize->add_control('font_general', [
-        'section' => 'font_general',
-        'setting' => 'font_general',
-        'label' => 'Police',
-        'type' => 'select',
-        'choices' => $font
-    ]); 
-    
-    $wp_customize->add_control('font_post', [
-        'section' => 'font_post',
-        'setting' => 'font_post',
-        'label' => 'Police',
-        'type' => 'select',
-        'choices' => $font
-    ]); 
+    $controls = [
+        ['section' => 'preset','setting' => 'preset','label' => 'Couleur par défaut'],
+        ['section' => 'base','setting' => 'base','label' => 'Couleur par défaut'],
+        ['section' => 'title','setting' => 'title','label' => 'Couleur par défaut'],
+        ['section' => 'button','setting' => 'button','label' => 'Couleur par défaut'],
+        ['section' => 'logo','setting' => 'logo','label' => 'Couleur par défaut'],
+        ['section' => 'navigation_bar','setting' => 'navigation_bar','label' => 'Couleur par défaut'],
+        ['section' => 'top_bar','setting' => 'top_bar','label' => 'Couleur par défaut'],
+        ['section' => 'nav_mobile','setting' => 'nav_mobile','label' => 'Couleur par défaut'],
+        ['section' => 'footer','setting' => 'footer','label' => 'Couleur par défaut'],
+        ['section' => 'font','setting' => 'font','label' => 'Police', 'type' => 'select', 'choices' => $font],
+        ['section' => 'font_nav','setting' => 'font_nav','label' => 'Police', 'type' => 'select', 'choices' => $font],
+        ['section' => 'font_general','setting' => 'font_general','label' => 'Police', 'type' => 'select', 'choices' => $font],
+        ['section' => 'font_post','setting' => 'font_post','label' => 'Police', 'type' => 'select', 'choices' => $font],
+    ];
+
+    foreach ($controls as $control) {
+        create_control($wp_customize, $control['section'], $control['setting'], $control['label'], $control['type'], $control['choices']);
+    } 
 
     $wp_customize->add_control('title_banner', array(
         'section' => 'section_home',
